@@ -4,6 +4,7 @@ document.querySelector(".backward").addEventListener("click", goBackward);
 
 let currentData = {};
 let currentSelection = 0;
+let drinkCount = 0;
 
 function getDrinks() {
   let drinkType = document.querySelector("input").value.trim();
@@ -14,10 +15,13 @@ function getDrinks() {
     .then((data) => {
       currentSelection = 0;
       console.log(data);
+      drinkCount = data.drinks.length;
       currentData = data;
       document.querySelector(".drinkPic").src = data.drinks[0].strDrinkThumb;
-      document.querySelector("h2").innerText = data.drinks[0].strDrink;
+      document.querySelector("span").innerText = data.drinks[0].strDrink;
       document.querySelector("h3").innerText = data.drinks[0].strInstructions;
+      document.querySelector(".start").innerText = currentSelection + 1;
+      document.querySelector(".end").innerText = drinkCount;
     })
     .catch((err) => {
       console.log(`error ${err}`);
@@ -41,10 +45,12 @@ function goBackward() {
 }
 
 function updateDisplay() {
-  document.querySelector("img").src =
+  document.querySelector(".drinkPic").src =
     currentData.drinks[currentSelection].strDrinkThumb;
-  document.querySelector("h2").innerText =
+  document.querySelector("span").innerText =
     currentData.drinks[currentSelection].strDrink;
   document.querySelector("h3").innerText =
     currentData.drinks[currentSelection].strInstructions;
+  document.querySelector(".start").innerText = currentSelection + 1;
+  document.querySelector(".end").innerText = drinkCount;
 }
